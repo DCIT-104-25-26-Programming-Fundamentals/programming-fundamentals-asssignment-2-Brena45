@@ -61,7 +61,169 @@
 // =============================================================================
 
 #include <iostream>
-#include <iomanip>
-#include <string>
+#include <vector>
 using namespace std;
 
+// Function to read a matrix
+vector<vector<int>> readMatrix(int rows, int columns)
+{
+    vector<vector<int>> matrix(rows, vector<int>(columns));
+
+    for (int i = 0; i < rows; i++)
+    {
+        cout << "Enter row " << i + 1 << ": ";
+
+        for (int j = 0; j < columns; j++)
+        {
+            cin >> matrix[i][j];
+        }
+    }
+
+    return matrix;
+}
+
+// Function to display a matrix
+void displayMatrix(vector<vector<int>> matrix)
+{
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        for (int j = 0; j < matrix[i].size(); j++)
+        {
+            cout << matrix[i][j] << "\t";
+        }
+
+        cout << endl;
+    }
+}
+
+// Part A: Transpose a matrix
+void transposeMatrix()
+{
+    int rows, columns;
+
+    cout << "Enter number of rows: ";
+    cin >> rows;
+
+    cout << "Enter number of columns: ";
+    cin >> columns;
+
+    vector<vector<int>> matrix = readMatrix(rows, columns);
+
+    vector<vector<int>> transpose(
+        columns,
+        vector<int>(rows)
+    );
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            transpose[j][i] = matrix[i][j];
+        }
+    }
+
+    cout << "\nOriginal Matrix:" << endl;
+    displayMatrix(matrix);
+
+    cout << "\nTransposed Matrix:" << endl;
+    displayMatrix(transpose);
+}
+
+// Part B: Add two matrices
+void addMatrices()
+{
+    int rows, columns;
+
+    cout << "\nEnter number of rows: ";
+    cin >> rows;
+
+    cout << "Enter number of columns: ";
+    cin >> columns;
+
+    cout << "\nEnter Matrix 1" << endl;
+    vector<vector<int>> matrix1 = readMatrix(rows, columns);
+
+    cout << "\nEnter Matrix 2" << endl;
+    vector<vector<int>> matrix2 = readMatrix(rows, columns);
+
+    vector<vector<int>> result(
+        rows,
+        vector<int>(columns)
+    );
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            result[i][j] =
+                matrix1[i][j] + matrix2[i][j];
+        }
+    }
+
+    cout << "\nSum of the Matrices:" << endl;
+    displayMatrix(result);
+}
+
+// Part C: Multiply two matrices
+void multiplyMatrices()
+{
+    int rows1, columns1;
+    int rows2, columns2;
+
+    cout << "\nEnter rows of Matrix A: ";
+    cin >> rows1;
+
+    cout << "Enter columns of Matrix A: ";
+    cin >> columns1;
+
+    cout << "\nEnter Matrix A" << endl;
+    vector<vector<int>> matrixA =
+        readMatrix(rows1, columns1);
+
+    cout << "\nEnter rows of Matrix B: ";
+    cin >> rows2;
+
+    cout << "Enter columns of Matrix B: ";
+    cin >> columns2;
+
+    if (columns1 != rows2)
+    {
+        cout << "Matrix multiplication is not possible."
+             << endl;
+
+        return;
+    }
+
+    cout << "\nEnter Matrix B" << endl;
+    vector<vector<int>> matrixB =
+        readMatrix(rows2, columns2);
+
+    vector<vector<int>> result(
+        rows1,
+        vector<int>(columns2, 0)
+    );
+
+    for (int i = 0; i < rows1; i++)
+    {
+        for (int j = 0; j < columns2; j++)
+        {
+            for (int k = 0; k < columns1; k++)
+            {
+                result[i][j] +=
+                    matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
+
+    cout << "\nProduct of the Matrices:" << endl;
+    displayMatrix(result);
+}
+
+int main()
+{
+    transposeMatrix();
+    addMatrices();
+    multiplyMatrices();
+
+    return 0;
+}
